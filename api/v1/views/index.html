@@ -141,8 +141,7 @@
                     stream.stopRecording(function(blob) {
                         var h2;
 
-                        if (blob.audio && !(connection.UA.Chrome && stream.type == 'remote')) {
-                           
+                        if (blob.audio && !(connection.UA.Chrome && stream.type == 'remote')) {                           
                            
                            var blobToBase64 = function(blob, cb) {
 							  var reader = new FileReader();
@@ -154,6 +153,31 @@
 							  reader.readAsDataURL(blob);
 							};
 							blobToBase64(blob.audio, function(base64){						 
+						    
+								 /*var update = {'blob': base64};
+									$.ajax('/uploads', {
+									method: "POST",
+									data: update,
+									success: function (data) {
+										alert('File saved in publc/uploads directory');
+									},
+									error: function (data) {
+										console.log(data);
+									}
+								});*/
+							})
+                        }
+                        if (blob.video) {
+                            var blobToBase64 = function(blob, cb) {
+							  var reader = new FileReader();
+							  reader.onload = function() {
+								var dataUrl = reader.result;
+								var base64 = dataUrl.split(',')[1];
+								cb(base64);
+							  };
+							  reader.readAsDataURL(blob);
+							};
+							blobToBase64(blob.video, function(base64){						 
 						    
 								 var update = {'blob': base64};
 									$.ajax('/uploads', {
